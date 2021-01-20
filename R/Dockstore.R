@@ -21,6 +21,9 @@
 #'
 #' @format NULL
 #'
+#' @examples
+#' Dockstore()
+#'
 #' @export
 Dockstore <-
     function()
@@ -34,7 +37,8 @@ Dockstore <-
     .Dockstore(
         Service(
             "dockstore", host="dockstore.org", authenticate = FALSE,
-            api_url = "https://dockstore.org/swagger.json"
+            api_url = "https://dockstore.org/swagger.json",
+            api_reference_md5sum = "d70ecce0e117b00bbf483af09423dc54"
         ),
         api_header = api_header
     )
@@ -43,10 +47,12 @@ Dockstore <-
 #' @export
 setMethod(
     "operations", "Dockstore",
-    function(x, ...)
+    function(x, ..., .deprecated = FALSE)
 {
     ## Use .api_header() for authentication.
-    value <- callNextMethod(x, .headers = .api_header(x))
+    value <- callNextMethod(
+        x, .headers = .api_header(x), ..., .deprecated = .deprecated
+    )
     ## Some operations have a poorly defined operationId in the json
     value[grep("[_,]+", names(value), invert = TRUE)]
 })

@@ -26,9 +26,9 @@ NULL
 #'     are the unlisted second and more-nested elements.
 #'
 #' @examples
-#' \donttest{
-#' leonardo <- Leonardo()
-#' leonardo$listClusters() %>% flatten()
+#' if (gcloud_exists()) {
+#'     leonardo <- Leonardo()
+#'     leonardo$listClusters() %>% flatten()
 #' }
 #'
 #' @export
@@ -38,8 +38,13 @@ setGeneric("flatten", function(x) standardGeneric("flatten"))
 setMethod("flatten", "response",
     function(x)
 {
-    json <- fromJSON(content(x, as="text", encoding = "UTF-8"), flatten = TRUE)
-    as_tibble(json)
+    value <- content(x, as="text", encoding = "UTF-8")
+    if (nzchar(value)) {
+        json <- fromJSON(value, flatten = TRUE)
+        as_tibble(json)
+    } else {
+        tibble()
+    }
 })
 
 #' @rdname Response
@@ -50,13 +55,19 @@ setMethod("flatten", "response",
 #'     JSON response; it returns `NULL`.
 #'
 #' @examples
-#' \donttest{leonardo$getSystemStatus() %>% str()}
+#' if (gcloud_exists())
+#'    leonardo$getSystemStatus() %>% str()
 #'
 #' @export
 setMethod("str", "response",
     function(object)
 {
-    json <- fromJSON(content(object, as="text", encoding = "UTF-8"))
+    value <- content(object, as="text", encoding = "UTF-8")
+    if (nzchar(value)) {
+        json <- fromJSON(value)
+    } else {
+        json <- character()
+    }
     str(json)
 })
 
@@ -70,12 +81,17 @@ setMethod("str", "response",
 #'     as a list.
 #'
 #' @examples
-#' \donttest{dockstore$getUser() %>% as.list()}
+#' if (gcloud_exists())
+#'     leonardo$getSystemStatus() %>% as.list()
 #'
 #' @export
 as.list.response <-
     function(x, ..., as=c("text", "raw", "parsed"))
 {
     as <- match.arg(as)
-    fromJSON(content(x, as=as))
+    value <- content(x, as=as, encoding = "UTF-8")
+    if (identical(as, "text") && nzchar(value)) {
+        value <- fromJSON(value)
+    }
+    value
 }

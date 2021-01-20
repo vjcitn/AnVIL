@@ -2,7 +2,7 @@
 #'
 #' @name gsutil
 #'
-#' @title Interact with the gsutil command line utility
+#' @title gsutil command line utility interface
 #'
 #' @description These functions invoke the `gsutil` command line
 #'     utility. See the "Details:" section if you have gsutil
@@ -20,6 +20,9 @@
 #'     `LOCAL APP DATA`, `Program Files`, and `Program Files (x86)`
 #'     directories.  On linux / macOS, the search continues with
 #'     `~/google-cloud-sdk`.
+#'
+#' @examples
+#'     src <- "gs://genomics-public-data/1000-genomes/other/sample_info/sample_info.csv"
 NULL
 
 ## evaluate the gsutil command and arguments in `args`
@@ -43,6 +46,10 @@ NULL
 #' @return `gsutil_requesterpays()`: named `logical()` vector TRUE
 #'     when requester-pays is enabled.
 #'
+#' @examples
+#' if (gcloud_exists())
+#'     gsutil_requesterpays(src) # FALSE -- no cost download
+#'
 #' @export
 gsutil_requesterpays <-
     function(source)
@@ -58,9 +65,13 @@ gsutil_requesterpays <-
 .gsutil_requesterpays_flag <-
     function(source)
 {
-    if (any(gsutil_requesterpays(source))) {
-        c("-u", gcloud_project())
-    } else NULL
+    tryCatch({
+        if (any(gsutil_requesterpays(source))) {
+            c("-u", gcloud_project())
+        } else NULL
+    }, error = function(...) {
+        NULL
+    })
 }
 
 #' @rdname gsutil
@@ -70,9 +81,9 @@ gsutil_requesterpays <-
 #'     your default project ID
 #'
 #' @param source `character(1)`, (`character()` for
-#'     `gsutil_requesterpays()`, `gsutil_ls()`, `gsutil_exists()`)
-#'     paths to a google storage bucket, possibly with wild-cards for
-#'     file-level pattern matching.
+#'     `gsutil_requesterpays()`, `gsutil_ls()`, `gsutil_exists()`,
+#'     `gsutil_cp()`) paths to a google storage bucket, possibly with
+#'     wild-cards for file-level pattern matching.
 #'
 #' @param recursive `logical(1)`; perform operation recursively from
 #'     `source`?. Default: `FALSE`.
@@ -97,7 +108,8 @@ gsutil_ls <-
         ...,
         source
     )
-    .gsutil_do(args)
+    result <- .gsutil_do(args)
+    result[nzchar(result) & !endsWith(result, ":")]
 }
 
 .gsutil_exists_1 <-
@@ -141,11 +153,11 @@ gsutil_exists <-
 #'
 #' @return `gsutil_stat()`: `character()` description of status of
 #'     objects matching `source`.
-#'
 #' @examples
-#'
-#' \dontrun{
-#'     gsutil_stat('gs://anvil-bioc', 'blah')
+#' if (gcloud_exists()) {
+#'     gsutil_exists(src)
+#'     gsutil_stat(src)
+#'     gsutil_ls(dirname(src))
 #' }
 #'
 #' @export
@@ -175,18 +187,8 @@ gsutil_stat <-
 #' @return `gsutil_cp()`: exit status of `gsutil_cp()`, invisibly.
 #'
 #' @examples
-#'
-#' \dontrun{
-#'    # for a single file
-#'    gsutil_cp("gs://anvil-bioc/blah",
-#'              "/tmp/blah-copy", recursive=FALSE, parallel=FALSE)
-#'
-#'    # for a folder with all contents
-#'    # "/tmp/foobar-copy" must be an existing destination or must be created
-#'
-#'    gsutil_cp("gs://anvil-bioc/foobar",
-#'              "/tmp/foobar-copy", recursive=TRUE, parallel=TRUE)
-#' }
+#' if (gcloud_exists())
+#'    gsutil_cp(src, tempdir())
 #'
 #' @export
 gsutil_cp <-
@@ -194,13 +196,13 @@ gsutil_cp <-
 {
     source_is_uri <- .gsutil_is_uri(source)
     stopifnot(
-        .is_scalar_character(source), .is_scalar_character(destination),
-        source_is_uri || .gsutil_is_uri(destination),
+        .is_character(source), .is_scalar_character(destination),
+        all(source_is_uri) || .gsutil_is_uri(destination),
         .is_scalar_logical(recursive), .is_scalar_logical(parallel)
     )
 
     args <- c(
-        if (source_is_uri) .gsutil_requesterpays_flag(source),
+        if (any(source_is_uri)) .gsutil_requesterpays_flag(source),
         if (parallel) "-m", ## Makes the operations faster
         "cp", ## cp command
         if (recursive) "-r",
@@ -221,16 +223,6 @@ gsutil_cp <-
 #'     removing multiple objects. Default: `FALSE`.
 #'
 #' @return `gsutil_rm()`: exit status of `gsutil_rm()`, invisibly.
-#'
-#' @examples
-#'
-#' \dontrun{
-#'    ## Remove a single file
-#'    gsutil_rm('gs://anvil-bioc', 'blah', recursive = FALSE)
-#'
-#'    ## Remove a folder
-#'    gsutil_rm('gs://anvil-bioc', 'foo-bar', recursive=TRUE, parallel=TRUE)
-#' }
 #'
 #' @export
 gsutil_rm <-
@@ -288,20 +280,10 @@ gsutil_rm <-
 #'
 #' @return `gsutil_rsync()`: exit status of `gsutil_rsync()`, invisbly.
 #'
-#' @examples
-#'
-#' \dontrun{
-#'    ## Rsync from google bucket source to local destination
-#'    gsutil_rsync('gs://anvil-bioc', '/tmp/local-copy')
-#'
-#'    ## Rsync from local source to google bucket
-#'    gsutil_rsync('/tmp/local-copy', 'gs://anvil-bioc')
-#' }
-#'
 #' @export
 gsutil_rsync <-
     function(source, destination, ..., dry = TRUE,
-             delete = FALSE, recursive = FALSE, parallel = TRUE)
+        delete = FALSE, recursive = FALSE, parallel = TRUE)
 {
     stopifnot(
         .is_scalar_character(source), .is_scalar_character(destination),
@@ -386,6 +368,10 @@ gsutil_cat <-
 #'
 #' @return `gsutil_help()`: `character()` help text for subcommand `cmd`.
 #'
+#' @examples
+#' if (gcloud_exists())
+#'     gsutil_help("ls")
+#'
 #' @export
 gsutil_help <-
     function(cmd = character(0))
@@ -413,32 +399,33 @@ gsutil_help <-
 #'     input as `read.csv()`)
 #'
 #' @examples
-#' \dontrun{
-#'   src <- "gs://genomics-public-data/1000-genomes/other/sample_info/sample_info.csv"
-#'   df <- read.csv(gsutil_pipe(src))
-#'   dim(df)
-#'   head(t(df[1,]))
+#' if (gcloud_exists()) {
+#'     df <- read.csv(gsutil_pipe(src), 5L)
+#'     class(df)
+#'     dim(df)
+#'     head(df)
 #' }
+#'
 #' @export
 gsutil_pipe <-
     function(source, open = "r", ...)
 {
     stopifnot(
         .is_scalar_character(source),
-        open %in% c("r", "w")
+        .is_scalar_character(open)
     )
 
-    is_read <- identical(open, "r")
+    is_read <- identical(substr(open, 1, 1), "r")
     args <- c(
         if (is_read) .gsutil_requesterpays_flag(source),
         "cp",
         ...,
-        if(is_read) c(source, "-") else c("-", source)
+        if (is_read) c(source, "-") else c("-", source)
     )
 
     bin <- .gcloud_sdk_find_binary("gsutil")
     stopifnot(file.exists(bin))
 
     cmd <- paste(c(bin, args), collapse = " ")
-    pipe(cmd)
+    pipe(cmd, open)
 }

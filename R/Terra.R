@@ -27,14 +27,15 @@
 Terra <-
     function()
 {
-    access_token <- .gcloud_access_token()
+    access_token <- .gcloud_access_token("terra")
     api_header <- c(Authorization = paste("Bearer", access_token))
     .Terra(
         Service(
             "terra",
             host = "api.firecloud.org",
-            api_url = "https://api.firecloud.org/api-docs.yaml",
-            authenticate = FALSE
+            ## api_url = "https://api.firecloud.org/api-docs.yaml",
+            authenticate = FALSE,
+            api_reference_url = "https://api.firecloud.org/api-docs.yaml",
         ),
         api_header = api_header
     )
@@ -45,9 +46,11 @@ Terra <-
 #' @export
 setMethod(
     "operations", "Terra",
-    function(x)
+    function(x, ..., .deprecated = FALSE)
 {
-    value <- callNextMethod(x, .headers = .api_header(x))
+    value <- callNextMethod(
+        x, .headers = .api_header(x), ..., .deprecated = .deprecated
+    )
     value[grep("[_,]+", names(value), invert = TRUE)]
 })
 
