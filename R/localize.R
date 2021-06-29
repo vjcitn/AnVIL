@@ -29,6 +29,8 @@ localize <-
         .is_scalar_character(destination), dir.exists(destination),
         .is_scalar_logical(dry)
     )
+    if (dry)
+        warning("use 'dry = FALSE' to localize source / destination")
 
     ## FIXME: return destination paths of copied files
     gsutil_rsync(
@@ -59,6 +61,9 @@ delocalize <-
         .is_scalar_logical(unlink),
         .is_scalar_logical(dry)
     )
+    if (dry)
+        warning("use 'dry = FALSE' to delocalize source / destination")
+
     ## sync and optionally remove source
     result <- gsutil_rsync(
         source, destination, delete = FALSE, recursive = TRUE, dry = dry
@@ -101,7 +106,7 @@ delocalize <-
 install <-
     function(pkgs, lib = .libPaths()[1], ...,
         version = BiocManager::version(),
-        binary_base_url = "https://storage.googleapis.com",
+        binary_base_url = "https://storage.googleapis.com/bioconductor_docker/packages",
         verbose = getOption("verbose"))
 {
     stopifnot(
@@ -138,44 +143,46 @@ install <-
 #'
 #' @export
 repositories <-
-    function(version = BiocManager::version(),
-        binary_base_url = "https://storage.googleapis.com")
+    function(
+        version = BiocManager::version(),
+        binary_base_url = "https://storage.googleapis.com/bioconductor_docker/packages")
 {
     stopifnot(
         .is_scalar_character(version) || is.package_version(version),
         .is_scalar_character(binary_base_url)
     )
 
-    binary_repos <- NULL
-    bioconductor_version <- package_version(version)
-    platform <- Sys.getenv("TERRA_R_PLATFORM", NA)
-    platform_version_string <- Sys.getenv("TERRA_R_PLATFORM_BINARY_VERSION", NA)
-    if (!is.na(platform) && !is.na(platform_version_string)) {
-        ## binary_repos = https://storage.googleapis.com/terra-jupyter-r/0.99"
-        ## binary_repos = https://storage.googleapis.com/terra-rstudio-bioconductor/0.99"
-        ## CRAN-style exetension: src/contrib/PACKAGES.gz
-        platform_version <- package_version(platform_version_string)
-        binary_repos0 <- paste0(
-            binary_base_url, "/",
-            platform, "/",
-            platform_version$major, ".", platform_version$minor, "/",
-            bioconductor_version$major, ".", bioconductor_version$minor
+    repositories <- BiocManager::repositories()
 
-        )
-        ## validate binary_repos is available
-        packages <- paste0(contrib.url(binary_repos0), "/PACKAGES.gz")
-        url <- url(packages)
-        binary_repos <- tryCatch({
-            suppressWarnings(open(url, "rb"))
-            close(url)
-            binary_repos0
-        }, error = function(...) {
-            close(url)
-            NULL
-        })
+    ## are we running on a docker container?
+    bioconductor_docker_version <- Sys.getenv("BIOCONDUCTOR_DOCKER_VERSION")
+    if (!nzchar(bioconductor_docker_version))
+        return(repositories)
+
+    ## is the docker container configured correctly?
+    bioconductor_version <- package_version(version)
+    docker_version <- package_version(bioconductor_docker_version)
+    test <-
+        (bioconductor_version$major == docker_version$major) &
+        (bioconductor_version$minor == docker_version$minor)
+    if (!test) {
+        return(repositories)
     }
 
-    c(binary_repos, BiocManager::repositories())
+    ## does the binary repository exist?
+    binary_repos0 <- paste0(binary_base_url, "/", bioconductor_version, "/bioc")
+    packages <- paste0(contrib.url(binary_repos0), "/PACKAGES.gz")
+    url <- url(packages)
+    binary_repos <- tryCatch({
+        suppressWarnings(open(url, "rb"))
+        close(url)
+        binary_repos0
+    }, error = function(...) {
+        close(url)
+        NULL
+    })
+
+    c(BiocBinaries = binary_repos, repositories)
 }
 
 #' @rdname localize

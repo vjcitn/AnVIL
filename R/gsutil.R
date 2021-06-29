@@ -151,8 +151,9 @@ gsutil_exists <-
 #' @description `gsutil_stat()`: print, as a side effect, the status
 #'     of a bucket, directory, or file.
 #'
-#' @return `gsutil_stat()`: `character()` description of status of
-#'     objects matching `source`.
+#' @return `gsutil_stat()`: `tibble()` summarizing status of each
+#'     bucket member.
+#'
 #' @examples
 #' if (gcloud_exists()) {
 #'     gsutil_exists(src)
@@ -160,6 +161,7 @@ gsutil_exists <-
 #'     gsutil_ls(dirname(src))
 #' }
 #'
+#' @importFrom tidyr pivot_wider
 #' @export
 gsutil_stat <-
     function(source)
@@ -168,7 +170,34 @@ gsutil_stat <-
 
     args <- c(.gsutil_requesterpays_flag(source), "stat", source)
     result <- .gsutil_do(args)
-    .gcloud_sdk_result(result)
+
+    ## omit nested 'metadata', for convenience
+    is_metadata <- grepl("^( {4}Metadata:| {8})", result)
+    result <- result[!is_metadata]
+
+    ## form into tibble with rows for each bucket & key / value pair
+    is_path <- startsWith(result, "gs://")
+    group <- cumsum(is_path)
+    n <- tabulate(group) - 1L
+    re <- "^ +([^:]+): +(.*)"
+    tz_format <- "%a, %d %b %Y %H:%M:%S"
+    tbl <- tibble(
+        path = rep(sub(":$", "", result[is_path]), n),
+        key = sub(re, "\\1", result[!is_path]),
+        value = sub(re, "\\2", result[!is_path])
+    )
+
+    ## reshape to one row per bucket
+    tbl %>%
+        pivot_wider(
+            .data$path, names_from = "key", values_from = "value"
+        ) %>%
+        mutate(
+            `Creation time` =
+                as.POSIXct(.data$`Creation time`, tz = "GMT", format = tz_format),
+            `Update time` =
+                as.POSIXct(.data$`Update time`, tz = "GMT", format = tz_format)
+        )
 }
 
 #' @rdname gsutil
@@ -253,6 +282,10 @@ gsutil_rm <-
 #'
 #' @description `gsutil_rsync()`: synchronize a source and a destination.
 #'
+#' @param exclude `character(1)` a python regular expression of bucket
+#'     paths to exclude from synchronization. E.g.,
+#'     `'.*(\\.png|\\.txt)$"` excludes '.png' and .txt' files.
+#'
 #' @param dry `logical(1)`, when `TRUE` (default), return the
 #'     consequences of the operation without actually performing the
 #'     operation.
@@ -282,12 +315,13 @@ gsutil_rm <-
 #'
 #' @export
 gsutil_rsync <-
-    function(source, destination, ..., dry = TRUE,
+    function(source, destination, ..., exclude = NULL, dry = TRUE,
         delete = FALSE, recursive = FALSE, parallel = TRUE)
 {
     stopifnot(
         .is_scalar_character(source), .is_scalar_character(destination),
         .gsutil_is_uri(source) || .gsutil_is_uri(destination),
+        is.null(exclude) || .is_scalar_character(exclude),
         .is_scalar_logical(dry),
         .is_scalar_logical(delete),
         .is_scalar_logical(recursive),
@@ -304,6 +338,7 @@ gsutil_rsync <-
         ##  -m option, to perform parallel (multi-threaded/multi-processing)
         if (parallel) "-m",
         "rsync",
+        if (length(exclude)) paste0('-x "', exclude, '"'),
         if (dry) "-n",
         if (delete) "-d",
         if (recursive) "-r",

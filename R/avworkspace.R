@@ -26,7 +26,45 @@ NULL
         hash[[key]]
     }
 })
+
 #' @rdname avworkspace
+#' @md
+#'
+#' @description `avworkspaces()` returns a tibble with available
+#'     workspaces.
+#'
+#' @return `avworkspaces()` returns a tibble with columns including
+#'     the name, last modification time, namespace, and owner status.
+#'
+#'
+#' @export
+avworkspaces <-
+    function()
+{
+
+    response <- Terra()$listWorkspaces()
+    .avstop_for_status(response, "avworkspaces")
+
+    flatten(response) %>%
+        select(
+            name = .data$workspace.name,
+            lastModified = .data$workspace.lastModified,
+            createdBy = .data$workspace.createdBy,
+            namespace = .data$workspace.namespace,
+            accessLevel = .data$accessLevel
+        ) %>%
+        mutate(
+            name = trimws(.data$name),
+            lastModified = as.Date(.data$lastModified)
+        ) %>%
+        arrange(
+            .data$name,
+            desc(.data$lastModified)
+        )
+}
+
+#' @rdname avworkspace
+#' @md
 #'
 #' @description `avworkspace_namespace()` and `avworkspace_name()` are
 #'     utiliity functions to retrieve workspace namespace and name
@@ -121,6 +159,7 @@ avworkspace <-
 }
 
 #' @rdname avworkspace
+#' @md
 #'
 #' @description `avworkspace_clone()` clones (copies) an existing
 #'     workspace, possibly into a new namespace (billing account).
@@ -162,5 +201,5 @@ avworkspace_clone <-
         )
     .avstop_for_status(response, "avworkspace_clone")
 
-    paste(to_name, to_namespace, sep = "/")
+    paste(to_namespace, to_name, sep = "/")
 }

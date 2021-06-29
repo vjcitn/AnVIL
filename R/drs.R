@@ -25,7 +25,10 @@
     response <- POST(.DRS_MARTHA, headers, body = body, encode="raw")
     .avstop_for_status(response, "DRS resolution")
     lst <- as.list(response)
-    tbl <- as_tibble(lst[!vapply(lst, is.null, logical(1))])
+    is_list <- # nest list elements so length == 1L
+        vapply(lst, is.list, logical(1))
+    lst[is_list] <- lapply(lst[is_list], list)
+    tbl <- as_tibble(lst[lengths(lst) == 1L])
 
     .tbl_with_template(tbl, template)
 }
@@ -66,19 +69,10 @@
 #'   value; if unknown. it returns null)
 #'
 #' @examples
-#' drs_eg_hca <- paste0(
-#'     "drs://drs.data.humancellatlas.org/",
-#'     "4cf48dbf-cf09-452e-bb5b-fd016af0c747?version=2019-09-14T024754.281908Z"
-#' )
-#'
 #' drs_eg_anvil <- c(
 #'     "drs://dg.ANV0/975bd45f-f022-4fad-b9a2-3a00c3b8792c",
 #'     "drs://dg.ANV0/00008531-03d7-418c-b3d3-b7b22b5381a0"
 #' )
-#'
-#' if (gcloud_exists())
-#'     # no pet account needed for HCA data
-#'     drs_stat(drs_eg_hca)
 #'
 #' if (gcloud_exists() && startsWith(gcloud_account(), "pet-")) {
 #'     ## from within AnVIL
@@ -197,12 +191,6 @@ drs_stat <-
 #' - destination: character() full path to retrieved object(s)
 #'
 #' @examples
-#' if (gcloud_exists()) {
-#'     destination <- tempfile()
-#'     dir.create(destination)
-#'     tbl <- drs_cp(drs_eg_hca, destination)
-#'     readLines(tbl$destination, warn = FALSE)
-#' }
 #'
 #' @export
 drs_cp <-

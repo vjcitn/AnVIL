@@ -115,6 +115,32 @@ avworkflow_jobs <-
         arrange(desc(.data$submissionDate))
 }
 
+.WORKFLOW_LOGS <- "workflow.logs"
+
+.WORKFLOW_CONTROL_FILES <- c(
+    "gcs_delocalization\\.sh",
+    "gcs_localization\\.sh",
+    "gcs_transfer\\.sh",
+    "output", "rc", "script",
+    "stderr", "stdout",
+    "workflow\\..*\\.log"
+    ## also task-specific logs
+    ## "hmmratac_run\\.log",
+)
+
+.avworkflow_file_type <-
+    function(file, workflow)
+{
+    type <- rep("output", length(file))
+    fls <- c(
+        .WORKFLOW_CONTROL_FILES,
+        paste0(unique(workflow), "_run-*[[:digit:]]*\\.log")
+    )
+    pattern <- paste0("^(", paste(fls, collapse = "|"), ")$")
+    type[grepl(pattern, file)] <- "control"
+    type
+}
+
 #' @rdname avworkflow
 #' @md
 #'
@@ -163,8 +189,6 @@ avworkflow_jobs <-
 avworkflow_files <-
     function(submissionId = NULL, bucket = avbucket())
 {
-    WORKFLOW_LOGS <- "workflow.logs"
-
     stopifnot(
         .is_scalar_character(bucket),
         is.null(submissionId) || .is_character(submissionId) ||
@@ -190,19 +214,129 @@ avworkflow_files <-
     part <- strsplit(path, "/")
     workflow <- vapply(part, `[[`, character(1), 5)
     task <- rep(NA_character_, length(workflow))
-    idx <- workflow != WORKFLOW_LOGS
+    idx <- workflow != .WORKFLOW_LOGS
     task[idx] <- vapply(part[idx], `[[`, character(1), 7)
     tbl <-  tibble(
         file = basename(path),
         workflow = workflow,
         task = task,
+        type = .avworkflow_file_type(file, workflow),
         path = path
     )
     tbl %>%
         arrange(
-            ## workflows.log last
-            workflow == WORKFLOW_LOGS, task, path, file
+            match(.data$type, c("output", "control")), # output first
+            task, file, path
         )
+}
+
+#' @rdname avworkflow
+#' @md
+#'
+#' @description `avworkflow_localize()` creates or synchronizes a
+#'     local copy of files with files stored in the workspace bucket
+#'     and produced by the workflow.
+#'
+#' @details `avworkflow_localize()`. `type = "control"` files
+#'     summarize workflow progress; they can be numerous but are
+#'     frequently small and quickly syncronized. `type = "output"`
+#'     files are the output products of the workflow stored in the
+#'     workspace bucket. Depending on the workflow, outputs may be
+#'     large, e.g., aligned reads in bam files. See `gsutil_cp()` to
+#'     copy individual files from the bucket to the local drive.
+#'
+#'     `avworkflow_localize()` treats `submissionId=` in the same way
+#'     as `avworkflow_files()`: when missing, files from the most
+#'     recent workflow job are candidates for localization.
+#'
+#' @param destination character(1) file path to the location where
+#'     files will be synchronized. For directories in the current
+#'     working directory, be sure to prepend with `"./"`. When `NULL`,
+#'     the `submissionId` is used as the destination. `destination`
+#'     may also be a google bucket, in which case th workflow files
+#'     are synchronized from the workspace to a second bucket.
+#'
+#' @param type character(1) copy `"control"` (default), `"output"`, or
+#'     `"all"` files produced by a workflow.
+#'
+#' @param dry logical(1) when `TRUE` (default), report the
+#'     consequences but do not perform the action requested. When
+#'     `FALSE`, perform the action.
+#'
+#' @return `avworkflow_localize()` prints a message indicating the
+#'     number of files that are (if `dry = FALSE`) or would be
+#'     localized. If no files require localization (i.e., local files
+#'     are not older than the bucket files), then no files are
+#'     localized. `avworkflow_localize()` returns a tibble of file
+#'     name and bucket path of files to be synchronized.
+#'
+#' @examples
+#' if (gcloud_exists() && nzchar(avworkspace_name())) {
+#'     avworkflow_localize(dry = TRUE)
+#' }
+#'
+#' @export
+avworkflow_localize <-
+    function(
+         submissionId = NULL,
+         destination = NULL,
+         type = c("control", "output", "all"),
+         bucket = avbucket(),
+         dry = TRUE
+    )
+{
+    type <- match.arg(type)
+    stopifnot(
+        .is_scalar_logical(dry),
+        is.null(destination) || .is_scalar_character(destination)
+    )
+    if (is.null(submissionId))
+        submissionId <-
+            avworkflow_jobs() %>%
+            pull(submissionId) %>%
+            head(1)
+    if (is.null(destination))
+        destination <- paste0("./", submissionId)
+    if (dry && !dir.exists(destination)) {
+        ## create temporary 'destination' so gsutil_rsync does not fail
+        destination <- tempfile()
+        dir.create(destination)
+    }
+
+    fls <- avworkflow_files(submissionId, bucket)
+
+    source <- paste(avbucket(), submissionId, sep = "/")
+    exclude <- NULL
+    exclude0 <- unique(fls$file[!fls$type %in% type])
+    exclude1 <- gsub(".", "\\.", paste0(exclude0, collapse = "|"), fixed = TRUE)
+    if (nzchar(exclude1))
+        exclude <- paste0(".*/(", exclude1, ")$")
+
+    result <- gsutil_rsync(
+        source, destination, delete = FALSE,
+        recursive = TRUE, exclude = exclude, dry = dry
+    )
+    if (dry) {
+        idx <- startsWith(result, "Would copy ")
+        result <- sub("Would copy (.*) to .*", "\\1", result[idx])
+        n_files <- length(result)
+        warning(
+            "use 'dry = FALSE' to localize ", n_files, " workflow files",
+            call. = FALSE
+        )
+    } else {
+        idx <- startsWith(result, "Copying ")
+        result <- sub("Copying (.*)\\.\\.\\.", "\\1", result[idx])
+        n_files <- length(result)
+        message("localized ", n_files, " workflow files to '", destination, "'")
+    }
+
+    tbl <- tibble(
+        file = basename(result),
+        path = result
+    )
+
+    invisible(tbl)
 }
 
 #' @rdname avworkflow

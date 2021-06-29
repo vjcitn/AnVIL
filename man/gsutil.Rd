@@ -30,6 +30,7 @@ gsutil_rsync(
   source,
   destination,
   ...,
+  exclude = NULL,
   dry = TRUE,
   delete = FALSE,
   recursive = FALSE,
@@ -62,6 +63,10 @@ multi-processing (default is `TRUE`).}
 \item{force}{`logical(1)`: continue silently despite errors when
 removing multiple objects. Default: `FALSE`.}
 
+\item{exclude}{`character(1)` a python regular expression of bucket
+paths to exclude from synchronization. E.g.,
+`'.*(\\.png|\\.txt)$"` excludes '.png' and .txt' files.}
+
 \item{dry}{`logical(1)`, when `TRUE` (default), return the
 consequences of the operation without actually performing the
 operation.}
@@ -93,8 +98,8 @@ from the bucket.}
 
 `gsutil_exists()`: logical(1) TRUE if bucket or object exists.
 
-`gsutil_stat()`: `character()` description of status of
-    objects matching `source`.
+`gsutil_stat()`: `tibble()` summarizing status of each
+    bucket member.
 
 `gsutil_cp()`: exit status of `gsutil_cp()`, invisibly.
 
