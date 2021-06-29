@@ -104,7 +104,7 @@ drs_stat <-
     )
 
 
-    response <- lapply(source, .martha_v3, template)
+    response <- parallel::mclapply(source, .martha_v3, template)
     tbl <- bind_rows(response)
     .tbl_with_template(tbl, template)
 }
