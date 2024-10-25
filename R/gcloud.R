@@ -15,11 +15,20 @@
 #'   for details on how `gcloud` is located.
 NULL
 
+gcloud_runs <- function() {
+    tryCatch({
+        .gcloud_do("version")[1L] |>
+            startsWith("Google Cloud SDK")
+    }, error = function(...) FALSE)
+}
+
 #' @rdname gcloud-deprecated
 #'
 #' @description `gcloud_exists()` tests whether the `gcloud()` command
-#'     can be found on this system. See 'Details' section of `gsutil`
-#'     for where the application is searched.
+#'     can be found on this system. After finding the binary location,
+#'     it runs `gcloud version` to identify potentially misconfigured
+#'     installations. See 'Details' section of `gsutil` for where the
+#'     application is searched.
 #'
 #' @return `gcloud_exists()` returns `TRUE` when the `gcloud`
 #'     application can be found, FALSE otherwise.
@@ -39,7 +48,7 @@ gcloud_exists <-
     result <- tryCatch({
         .gcloud_sdk_find_binary("gcloud")
     }, error = function(...) "")
-    nchar(result) > 0L
+    nzchar(result) && gcloud_runs()
 }
 
 #' @importFrom utils tail
