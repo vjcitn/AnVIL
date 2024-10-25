@@ -273,10 +273,7 @@ the compute node file system.
 \examples{
 library(AnVILBase)
 library(AnVILGCP)
-if (
-    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-    nzchar(avworkspace_name())
-) {
+if (has_avworkspace(strict = TRUE, platform = gcp())) {
     ## from within AnVIL
     data <- avdata()
     data
@@ -286,13 +283,10 @@ if (
 avdata_import(data)
 }
 
-if (
-    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-    nzchar(avworkspace_name())
-) {
+if (has_avworkspace(strict = TRUE, platform = gcp()))
     ## From within AnVIL...
     bucket <- avstorage()                        # discover bucket
-}
+
 \dontrun{
 path <- file.path(bucket, "mtcars.tab")
 gsutil_ls(dirname(path))                    # no 'mtcars.tab'...
@@ -300,10 +294,7 @@ write.table(mtcars, gsutil_pipe(path, "w")) # write to bucket
 gsutil_stat(path)                           # yep, there!
 read.table(gsutil_pipe(path, "r"))          # read from bucket
 }
-if (
-    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-    nzchar(avworkspace_name())
-)
+if (has_avworkspace(strict = TRUE, platform = gcp()))
     avfiles_ls()
 
 \dontrun{

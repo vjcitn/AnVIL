@@ -356,10 +356,7 @@ avworkflow_configuration_update <-
 #' @examples
 #' library(AnVILBase)
 #' library(AnVILGCP)
-#' if (
-#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-#'     nzchar(avworkspace_name()) && interactive()
-#' ) {
+#' if (has_avworkspace(strict = TRUE, platform = gcp())) {
 #' ## discover available workflows in the workspace
 #' avworkflows()
 #'

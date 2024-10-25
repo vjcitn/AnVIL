@@ -35,10 +35,7 @@ NULL
 #' @examples
 #' library(AnVILBase)
 #' library(AnVILGCP)
-#' if (
-#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-#'     nzchar(avworkspace_name())
-#' )
+#' if (has_avworkspace(strict = TRUE, platform = gcp()))
 #'     ## from within AnVIL
 #'     avworkflows() |> select(namespace, name)
 #'
@@ -294,10 +291,7 @@ avworkflows <-
 #' @importFrom rlang .env
 #'
 #' @examples
-#' if (
-#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-#'     nzchar(avworkspace_name())
-#' ) {
+#' if (has_avworkspace(strict = TRUE, platform = gcp())) {
 #'     ## e.g., from within AnVIL
 #'     avworkflow_jobs() |>
 #'     ## select most recent workflow
@@ -418,10 +412,7 @@ avworkflow_files <-
 #' @importFrom BiocBaseUtils isScalarLogical
 #'
 #' @examples
-#' if (
-#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-#'     nzchar(avworkspace_name())
-#' ) {
+#' if (has_avworkspace(strict = TRUE, platform = gcp())) {
 #'     avworkflow_localize(dry = TRUE)
 #' }
 #'
@@ -724,12 +715,8 @@ avworkflow_stop <-
 #' @importFrom dplyr distinct select
 #'
 #' @examples
-#' if (
-#'     gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-#'     nzchar(avworkspace_name())
-#' ) {
+#' if (has_avworkspace(strict = TRUE, platform = gcp()))
 #'     avworkflow_info()
-#' }
 #'
 #' @export
 avworkflow_info <-

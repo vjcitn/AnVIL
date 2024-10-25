@@ -217,17 +217,11 @@ identifies the submitted job.
 \examples{
 library(AnVILBase)
 library(AnVILGCP)
-if (
-    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-    nzchar(avworkspace_name())
-)
+if (has_avworkspace(strict = TRUE, platform = gcp()))
     ## from within AnVIL
     avworkflows() |> select(namespace, name)
 
-if (
-    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-    nzchar(avworkspace_name())
-) {
+if (has_avworkspace(strict = TRUE, platform = gcp())) {
     ## e.g., from within AnVIL
     avworkflow_jobs() |>
     ## select most recent workflow
@@ -236,10 +230,7 @@ if (
     avworkflow_files()
 }
 
-if (
-    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-    nzchar(avworkspace_name())
-) {
+if (has_avworkspace(strict = TRUE, platform = gcp())) {
     avworkflow_localize(dry = TRUE)
 }
 
@@ -254,11 +245,7 @@ avworkflow_run(new_config, entityName)
 avworkflow_stop()
 }
 
-if (
-    gcloud_exists() && identical(avplatform_namespace(), "AnVILGCP") &&
-    nzchar(avworkspace_name())
-) {
+if (has_avworkspace(strict = TRUE, platform = gcp()))
     avworkflow_info()
-}
 
 }
