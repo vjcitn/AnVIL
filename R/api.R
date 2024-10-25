@@ -70,7 +70,7 @@
     updated <- common[is_updated]
 
     r_files <- dir(
-        devtools::package_file("R"), full.names = TRUE, pattern = ".R$"
+        devtools::package_file("R"), full.names = TRUE, pattern = "\\.R$"
     )
     r_content <- unlist(lapply(r_files, readLines))
 
