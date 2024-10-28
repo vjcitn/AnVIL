@@ -2,6 +2,15 @@
 
 USER VISIBLE CHANGES
 
+- (v 1.17.18) Added `has_avworkspace` function to check for the existence of
+  an AnVIL workspace environment.
+
+- (v 1.17.10) Internal functions now use `AnVILGCP` for `gcloud` utilities. 
+
+- (v 1.17.8) Functions that use `gcloud` utilities are deprecated and will be
+  moved to `AnVILGCP`. See `help(package = "AnVIL")` for a complete list.
+  Documentation pages have a `*-deprecated` suffix.
+  
 - (v 1.17.3) Added Terra Data Repository (TDR) service as `TDR()`. See service
   at https://data.terra.bio.
 
@@ -9,9 +18,20 @@ USER VISIBLE CHANGES
   `repository()`, and `repositories()` have been removed.
 
 - (v 1.17.1) Defunct `repository_stats` function in favor of
-`BiocPkgTools::repositoryStats` (@LiNk-NY)
+  `BiocPkgTools::repositoryStats` (@LiNk-NY)
 
 BUG FIXES AND MINOR IMPROVEMENTS
+
+- (v 1.17.19) Increase robustness of `gcloud_exists` by testing `gcloud`
+  with the `version` command.
+
+- (v 1.17.18) Remove mentions of `AnVIL::install` from the vignette.
+
+- (v 1.17.13) Update to changes in `rapiclient` and use native pipe operator.
+
+- (v 1.17.7) Do not evaluate vignette chunks if `gcloud_exists()` is `FALSE`
+
+- (v 1.17.6) Update Dockstore API file, version, and URL
 
 - (v 1.17.2) Use `application/json` as default `Content-Type`.
 
