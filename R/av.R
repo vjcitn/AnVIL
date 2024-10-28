@@ -130,7 +130,7 @@ NULL
 #' @return `avtable_paged()`: a tibble of data corresponding to the
 #'     AnVIL table `table` in the specified workspace.
 #'
-#' @importFrom BiocBaseUtils isScalarNumber isScalarInteger
+#' @importFrom BiocBaseUtils isScalarNumber isScalarInteger lifeCycle
 #' @importFrom dplyr across where mutate
 #' @import AnVILBase
 #' @export
@@ -158,8 +158,9 @@ avtable_paged <-
         ## `unknown table; use 'avtables()' for valid names` =
         ##     .is_avtable(table, namespace, name)
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "av"
     )
     sortDirection <- match.arg(sortDirection)
@@ -333,8 +334,9 @@ avtable_import_status <-
         isScalarCharacter(name)
     )
 
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "av"
     )
     todo <- !job_status$status %in% c("Done", "Failed")
@@ -422,8 +424,9 @@ avdata <-
         isScalarCharacter(namespace),
         isScalarCharacter(name)
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "av"
     )
     name <- URLencode(name)
@@ -514,8 +517,9 @@ avdata_import <-
         isScalarCharacter(name)
     )
 
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "av"
     )
     .data <- filter(.data, .data$type == "other", table %in% "workspace")
@@ -600,9 +604,10 @@ avbucket <-
         isScalarLogical(as_path)
     )
 
-    .life_cycle(
+    lifeCycle(
         newfun = "avstorage",
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "av"
     )
 
@@ -690,8 +695,9 @@ avfiles_ls <-
         isScalarCharacter(name)
     )
 
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "av"
     )
 
@@ -760,8 +766,9 @@ avfiles_backup <-
         isScalarCharacter(name)
     )
 
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "av"
     )
 
@@ -797,8 +804,9 @@ avfiles_restore <-
         isScalarCharacter(name)
     )
 
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "av"
     )
 
@@ -830,8 +838,9 @@ avfiles_rm <-
         isScalarCharacter(name)
     )
 
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "av"
     )
 
@@ -903,8 +912,9 @@ avruntimes <-
         runtimeConfig.persistentDiskId = integer(0)
     )
 
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "av"
     )
 
@@ -944,8 +954,9 @@ avruntime <-
         isScalarCharacter(account)
     )
 
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "av"
     )
 
@@ -1025,8 +1036,9 @@ avdisks <-
         zone = character(0)
     )
 
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "av"
     )
 

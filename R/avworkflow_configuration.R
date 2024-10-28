@@ -57,8 +57,9 @@ NULL
 avworkflow_namespace <-
     function(workflow_namespace = NULL)
 {
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "avworkflow_config"
     )
     .avworkflow("NAMESPACE", workflow_namespace)
@@ -70,8 +71,9 @@ avworkflow_namespace <-
 avworkflow_name <-
     function(workflow_name = NULL)
 {
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "avworkflow_config"
     )
     value <- .avworkflow("NAME", workflow_name)
@@ -88,8 +90,9 @@ avworkflow <-
         isScalarCharacter_or_NULL(workflow)
     )
 
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "avworkflow_config"
     )
     if (!is.null(workflow)) {
@@ -163,8 +166,9 @@ avworkflow_configuration_get <-
         isScalarCharacter(namespace),
         isScalarCharacter(name)
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "avworkflow_config"
     )
     config <- Rawls()$get_method_configuration(
@@ -202,8 +206,9 @@ avworkflow_configuration_inputs <-
     function(config)
 {
     stopifnot(inherits(config, "avworkflow_configuration"))
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "avworkflow_config"
     )
     response <- .avworkflow_response(config)
@@ -235,8 +240,9 @@ avworkflow_configuration_outputs <-
     function(config)
 {
     stopifnot(inherits(config, "avworkflow_configuration"))
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "avworkflow_config"
     )
     response <- .avworkflow_response(config)
@@ -322,8 +328,9 @@ avworkflow_configuration_update <-
         all(c("name", "attribute") %in% names(outputs)),
         is(inputs, "data.frame"), is(outputs, "data.frame")
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "avworkflow_config"
     )
     config$inputs <-
@@ -407,8 +414,9 @@ avworkflow_configuration_set <-
         isScalarCharacter(namespace),
         isScalarCharacter(name)
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "avworkflow_config"
     )
     rawls <- Rawls()
@@ -496,8 +504,9 @@ avworkflow_configuration_set <-
 avworkflow_configuration_template <-
     function()
 {
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "avworkflow_config"
     )
     list(

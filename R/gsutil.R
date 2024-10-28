@@ -68,8 +68,10 @@ gsutil_requesterpays <-
     function(source)
 {
     stopifnot(all(.gsutil_is_uri(source)))
-    .life_cycle(
-        newpackage = "AnVILGCP", title = "gsutil"
+    lifeCycle(
+        newpackage = "AnVILGCP",
+        package = "AnVIL",
+        title = "gsutil"
     )
     project <- gcloud_project()
     buckets <- regmatches(source, regexpr("^gs://[^/]+", source))
@@ -130,8 +132,8 @@ gsutil_ls <-
         .gsutil_is_uri(source),
         isScalarLogical(recursive)
     )
-    .life_cycle(
-        newfun = "avlist", newpackage = "AnVILGCP", title = "gsutil"
+    lifeCycle(
+        "avlist", "AnVILGCP", "AnVIL", title = "gsutil"
     )
     args <- c(
         .gsutil_requesterpays_flag(source),
@@ -175,8 +177,8 @@ gsutil_exists <-
         is.character(source), !anyNA(source),
         .gsutil_is_uri(source)
     )
-    .life_cycle(
-        newpackage = "AnVILGCP", title = "gsutil"
+    lifeCycle(
+        newpackage = "AnVILGCP", package = "AnVIL", title = "gsutil"
     )
     gsutil <- .gcloud_sdk_find_binary("gsutil")
     stopifnot(file.exists(gsutil))      # bad environment variables
@@ -206,8 +208,8 @@ gsutil_stat <-
     function(source)
 {
     stopifnot(.gsutil_is_uri(source))
-    .life_cycle(
-        newpackage = "AnVILGCP", title = "gsutil"
+    lifeCycle(
+        newpackage = "AnVILGCP", package = "AnVIL", title = "gsutil"
     )
     args <- c(.gsutil_requesterpays_flag(source), "stat", shQuote(source))
     result <- .gsutil_do(args)
@@ -276,8 +278,8 @@ gsutil_cp <-
         any(location_is_uri),
         isScalarLogical(recursive), isScalarLogical(parallel)
     )
-    .life_cycle(
-        "avcopy", "AnVILGCP",
+    lifeCycle(
+        "avcopy", "AnVILGCP", "AnVIL", title = "gsutil"
     )
     args <- c(
         .gsutil_requesterpays_flag(location),
@@ -312,8 +314,8 @@ gsutil_rm <-
         isScalarLogical(recursive),
         isScalarLogical(parallel)
     )
-    .life_cycle(
-        "avremove", "AnVILGCP", title = "gsutil"
+    lifeCycle(
+        "avremove", "AnVILGCP", "AnVIL", title = "gsutil"
     )
     ## remove
     args <- c(
@@ -381,8 +383,8 @@ gsutil_rsync <-
         isScalarLogical(recursive),
         isScalarLogical(parallel)
     )
-    .life_cycle(
-        newfun = "avbackup/avrestore", newpackage = "AnVILGCP", title = "gsutil"
+    lifeCycle(
+        "avbackup/avrestore", "AnVILGCP", "AnVIL", title = "gsutil"
     )
     ## if destination is not a google cloud repo, and does not exist
     if (!dry && !.gsutil_is_uri(destination) && !dir.exists(destination))
@@ -432,8 +434,8 @@ gsutil_cat <-
         all(diff(range[!is.na(range)]) > 0L),
         length(range) == 0L || length(range) == 2L
     )
-    .life_cycle(
-        newpackage = "AnVILGCP", title = "gsutil"
+    lifeCycle(
+        newpackage = "AnVILGCP", package = "AnVIL", title = "gsutil"
     )
     if (length(range)) {
         range[is.na(range)] <- ""
@@ -473,8 +475,8 @@ gsutil_help <-
     function(cmd = character(0))
 {
     stopifnot(isZeroOneCharacter(cmd))
-    .life_cycle(
-        newpackage = "AnVILGCP", title = "gsutil"
+    lifeCycle(
+        newpackage = "AnVILGCP", package = "AnVIL", title = "gsutil"
     )
     result <- .gsutil_do(c("help", cmd))
     .gcloud_sdk_result(result)
@@ -513,8 +515,8 @@ gsutil_pipe <-
         isScalarCharacter(source),
         isScalarCharacter(open)
     )
-    .life_cycle(
-        newpackage = "AnVILGCP", title = "gsutil"
+    lifeCycle(
+        newpackage = "AnVILGCP", package = "AnVIL", title = "gsutil"
     )
     is_read <- identical(substr(open, 1, 1), "r")
     args <- c(

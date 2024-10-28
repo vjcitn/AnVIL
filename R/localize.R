@@ -30,8 +30,9 @@ localize <-
         isScalarCharacter(destination), dir.exists(destination),
         isScalarLogical(dry)
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "localize"
     )
     if (dry)
@@ -66,8 +67,9 @@ delocalize <-
         isScalarLogical(unlink),
         isScalarLogical(dry)
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "localize"
     )
     if (dry)

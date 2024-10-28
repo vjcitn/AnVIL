@@ -194,8 +194,9 @@ drs_stat <-
         `'source' must be DRS URIs, i.e., starting with "drs://"` =
             all(.drs_is_uri(source))
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "drs"
     )
     tbl <- .drs_stat_impl(source, .DRS_STAT_TEMPLATE)
@@ -253,8 +254,9 @@ drs_access_url <-
         `'source' must be DRS URIs, i.e., starting with "drs://"` =
             all(.drs_is_uri(source))
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "drs"
     )
     template_idx <- c("drs", "gsUri", "googleServiceAccount")
@@ -298,8 +300,9 @@ drs_access_url <-
 #'
 #' @export
 drs_cp <- function(source, destination, ..., overwrite = FALSE) {
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "drs"
     )
     UseMethod("drs_cp")

@@ -47,8 +47,9 @@ avworkflows <-
         isScalarCharacter(namespace),
         isScalarCharacter(name)
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "avworkflows"
     )
     workflows <- Rawls()$list_method_configurations(
@@ -321,8 +322,9 @@ avworkflow_files <-
         isScalarCharacter(name),
         isScalarCharacter_or_NULL(workflowId)
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "avworkflow"
     )
     if (is_tibble(submissionId)) {
@@ -440,8 +442,9 @@ avworkflow_localize <-
         is.null(destination) || isScalarCharacter(destination),
         isScalarCharacter(submissionId)
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "avworkflows"
     )
     if (is.null(destination))
@@ -564,8 +567,9 @@ avworkflow_run <-
         isScalarCharacter(name),
         isScalarLogical(dry)
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "avworkflows"
     )
     if (dry) {
@@ -637,8 +641,9 @@ avworkflow_stop <-
         isScalarCharacter(name),
         isScalarLogical(dry)
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "avworkflows"
     )
     if (dry) {
@@ -729,8 +734,9 @@ avworkflow_info <-
         isScalarCharacter(namespace),
         isScalarCharacter(name)
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "avworkflows"
     )
    if (is.null(submissionId)) {

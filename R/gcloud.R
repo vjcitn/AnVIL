@@ -41,8 +41,9 @@ gcloud_runs <- function() {
 gcloud_exists <-
     function()
 {
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "gcloud"
     )
     result <- tryCatch({
@@ -86,8 +87,9 @@ gcloud_exists <-
 #' @export
 gcloud_account <- function(account = NULL) {
     stopifnot(isScalarCharacter_or_NULL(account))
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "gcloud"
     )
     if (!is.null(account))
@@ -111,8 +113,9 @@ gcloud_project <- function(project = NULL) {
     stopifnot(
         isScalarCharacter_or_NULL(project)
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "gcloud"
     )
     if (!is.null(project))
@@ -140,8 +143,9 @@ gcloud_project <- function(project = NULL) {
 #'
 #' @export
 gcloud_help <- function(...) {
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "gcloud"
     )
     .gcloud_sdk_result(.gcloud_do("help", ...))
@@ -161,8 +165,9 @@ gcloud_help <- function(...) {
 #'
 #' @export
 gcloud_cmd <- function(cmd, ...) {
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "gcloud"
     )
     .gcloud_do(cmd, ...)
@@ -176,8 +181,9 @@ gcloud_cmd <- function(cmd, ...) {
 #'
 #' @export
 gcloud_storage <- function(cmd, ...) {
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "gcloud"
     )
     .gcloud_do("storage", cmd, ...)
@@ -202,8 +208,9 @@ gcloud_storage_buckets <- function(bucket_cmd = "create", bucket, ...) {
     stopifnot(
         isScalarCharacter(bucket_cmd), isScalarCharacter(bucket)
     )
-    .life_cycle(
+    lifeCycle(
         newpackage = "AnVILGCP",
+        package = "AnVIL",
         title = "gcloud"
     )
     gcloud_storage("buckets", bucket_cmd, bucket, ...)

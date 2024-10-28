@@ -56,14 +56,16 @@ BINARY_BASE_URL <- "https://bioconductor.org/packages/%s/container-binaries/%s"
 #' updated a package after the most recent run of the binary
 #' build system.
 #'
+#' @importFrom BiocBaseUtils lifeCycle
+#'
 #' @export
 repository_stats <-
     function(
         version = BiocManager::version(),
         binary_base_url = BINARY_BASE_URL)
 {
-    .life_cycle(
-        newpackage = "BiocPkgTools", cycle = "defunct"
+    lifeCycle(
+        newpackage = "BiocPkgTools", package = "AnVIL", cycle = "defunct"
     )
 }
 
@@ -78,7 +80,7 @@ repository_stats <-
 print.repository_stats <-
     function(x, ...)
 {
-    .life_cycle(
-        newpackage = "BiocPkgTools", cycle = "defunct"
+    lifeCycle(
+        newpackage = "BiocPkgTools", package = "AnVIL", cycle = "defunct"
     )
 }
