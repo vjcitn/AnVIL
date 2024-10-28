@@ -22,6 +22,9 @@ USER VISIBLE CHANGES
 
 BUG FIXES AND MINOR IMPROVEMENTS
 
+- (v 1.17.20) Use `lifeCycle` from `BiocBaseUtils` to mark functions as
+  deprecated or defunct. 
+  
 - (v 1.17.19) Increase robustness of `gcloud_exists` by testing `gcloud`
   with the `version` command.
 
