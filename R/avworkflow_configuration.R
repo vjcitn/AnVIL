@@ -1,10 +1,10 @@
-#' @name avworkflow_config-deprecated
+#' @name avworkflow_config-defunct
 #'
 #' @aliases avworkflow_configurations
 #'
-#' @title Workflow configuration
+#' @title DEFUNCT - Workflow configuration
 #'
-#' @inheritParams avworkflows-deprecated
+#' @inheritParams avworkflows-defunct
 #'
 #' @description `r lifecycle::badge("deprecated")`\cr
 #' Functions on this help page facilitate getting,
@@ -29,7 +29,7 @@ NULL
     }
 })
 
-#' @rdname avworkflow_config-deprecated
+#' @rdname avworkflow_config-defunct
 #'
 #' @description `avworkflow_namespace()` and `avworkflow_name()` are
 #'     utility functions to record the workflow namespace and name
@@ -60,12 +60,13 @@ avworkflow_namespace <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "avworkflow_config"
     )
     .avworkflow("NAMESPACE", workflow_namespace)
 }
 
-#' @rdname avworkflow_config-deprecated
+#' @rdname avworkflow_config-defunct
 #'
 #' @export
 avworkflow_name <-
@@ -74,13 +75,14 @@ avworkflow_name <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "avworkflow_config"
     )
     value <- .avworkflow("NAME", workflow_name)
     URLencode(value)
 }
 
-#' @rdname avworkflow_config-deprecated
+#' @rdname avworkflow_config-defunct
 #'
 #' @export
 avworkflow <-
@@ -93,6 +95,7 @@ avworkflow <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "avworkflow_config"
     )
     if (!is.null(workflow)) {
@@ -141,12 +144,12 @@ avworkflow <-
     as_tibble(template)
 }
 
-#' @rdname avworkflow_config-deprecated
+#' @rdname avworkflow_config-defunct
 #'
 #' @description `avworkflow_configuration_get()` returns a list structure
 #'     describing an existing workflow configuration.
 #'
-#' @inheritParams av-deprecated
+#' @inheritParams av-defunct
 #'
 #' @return `avworkflow_configuration_get()` returns a list structure
 #'     describing the configuration. See
@@ -169,6 +172,7 @@ avworkflow_configuration_get <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "avworkflow_config"
     )
     config <- Rawls()$get_method_configuration(
@@ -181,7 +185,7 @@ avworkflow_configuration_get <-
     config_list
 }
 
-#' @rdname avworkflow_config-deprecated
+#' @rdname avworkflow_config-defunct
 #'
 #' @description `avworkflow_configuration_inputs()` returns a
 #'     data.frame template for the inputs defined in a workflow
@@ -209,6 +213,7 @@ avworkflow_configuration_inputs <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "avworkflow_config"
     )
     response <- .avworkflow_response(config)
@@ -217,7 +222,7 @@ avworkflow_configuration_inputs <-
     .avworkflow_configuration_template_io(inputs_tmpl, inputs_config)
 }
 
-#' @rdname avworkflow_config-deprecated
+#' @rdname avworkflow_config-defunct
 #'
 #' @description `avworkflow_configuration_outputs()` returns a
 #'     data.frame template for the outputs defined in a workflow
@@ -243,6 +248,7 @@ avworkflow_configuration_outputs <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "avworkflow_config"
     )
     response <- .avworkflow_response(config)
@@ -298,7 +304,7 @@ avworkflow_configuration_outputs <-
     invisible(response)
 }
 
-#' @rdname avworkflow_config-deprecated
+#' @rdname avworkflow_config-defunct
 #'
 #' @description `avworkflow_configuration_update()` returns a list structure
 #'     describing a workflow configuration with updated inputs and / or outputs.
@@ -331,6 +337,7 @@ avworkflow_configuration_update <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "avworkflow_config"
     )
     config$inputs <-
@@ -340,7 +347,7 @@ avworkflow_configuration_update <-
     config
 }
 
-#' @rdname avworkflow_config-deprecated
+#' @rdname avworkflow_config-defunct
 #'
 #' @description `avworkflow_configuration_set()` updates an existing
 #'     configuration in Terra / AnVIL, e.g., changing inputs to the
@@ -417,6 +424,7 @@ avworkflow_configuration_set <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "avworkflow_config"
     )
     rawls <- Rawls()
@@ -448,7 +456,7 @@ avworkflow_configuration_set <-
     return(invisible(config))
 }
 
-#' @rdname avworkflow_config-deprecated
+#' @rdname avworkflow_config-defunct
 #'
 #' @description `avworkflow_configuration_template()` returns a
 #'     template for defining workflow configurations. This template
@@ -507,6 +515,7 @@ avworkflow_configuration_template <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "avworkflow_config"
     )
     list(
@@ -528,7 +537,7 @@ avworkflow_configuration_template <-
     )
 }
 
-#' @rdname avworkflow_config-deprecated
+#' @rdname avworkflow_config-defunct
 #'
 #' @param x Object of class `avworkflow_configuration`.
 #'

@@ -110,9 +110,9 @@
     tbl
 }
 
-#' @name drs-deprecated
+#' @name drs-defunct
 #'
-#' @title DRS (Data Repository Service) URL management
+#' @title DEFUNCT - DRS (Data Repository Service) URL management
 #'
 #' @description `drs_stat()` resolves zero or more DRS URLs to their
 #'     google bucket location.
@@ -197,6 +197,7 @@ drs_stat <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "drs"
     )
     tbl <- .drs_stat_impl(source, .DRS_STAT_TEMPLATE)
@@ -236,7 +237,7 @@ drs_stat <-
     ))
 }
 
-#' @rdname drs-deprecated
+#' @rdname drs-defunct
 #'
 #' @description `drs_access_url()` returns a vector of 'signed' URLs
 #'     that allow access to restricted resources via standard https
@@ -257,6 +258,7 @@ drs_access_url <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "drs"
     )
     template_idx <- c("drs", "gsUri", "googleServiceAccount")
@@ -277,7 +279,7 @@ drs_access_url <-
     result
 }
 
-#' @rdname drs-deprecated
+#' @rdname drs-defunct
 #'
 #' @description `drs_cp()` copies 0 or more DRS URIs to a google
 #'     bucket or local folder
@@ -303,6 +305,7 @@ drs_cp <- function(source, destination, ..., overwrite = FALSE) {
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "drs"
     )
     UseMethod("drs_cp")

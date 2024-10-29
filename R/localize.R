@@ -1,6 +1,6 @@
-#' @name localize-deprecated
+#' @name localize-defunct
 #'
-#' @title Copy packages, folders, or files to or from google buckets
+#' @title DEFUNCT - Copy packages, folders, or files to or from google buckets
 #'
 #' @description `r lifecycle::badge("deprecated")`\cr
 #'     `localize()`: recursively synchronizes files from a
@@ -33,6 +33,7 @@ localize <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "localize"
     )
     if (dry)
@@ -44,7 +45,7 @@ localize <-
     )
 }
 
-#' @name localize-deprecated
+#' @name localize-defunct
 #'
 #' @description `delocalize()`: synchronize files from a local file
 #'     system (`source`) to a Google storage bucket
@@ -70,6 +71,7 @@ delocalize <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "localize"
     )
     if (dry)

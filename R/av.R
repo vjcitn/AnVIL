@@ -1,8 +1,8 @@
-#' @name av-deprecated
+#' @name av-defunct
 #'
 #' @title TABLE, DATA, files, bucket, runtime, and disk elements
 #'
-#' @description `r lifecycle::badge("deprecated")`\cr
+#' @description DEFUNCT - AnVIL GCP functions for TABLE, DATA, files, bucket,
 NULL
 
 ##
@@ -93,7 +93,7 @@ NULL
     )
 }
 
-#' @rdname av-deprecated
+#' @rdname av-defunct
 #'
 #' @param table character(1) table name as returned by, e.g., `avtables()`.
 #'
@@ -161,6 +161,7 @@ avtable_paged <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "av"
     )
     sortDirection <- match.arg(sortDirection)
@@ -312,7 +313,7 @@ avtable_paged <-
     content(response)$jobId
 }
 
-#' @rdname av-deprecated
+#' @rdname av-defunct
 #'
 #' @description `avtable_import_status()` queries for the status of an
 #'     'asynchronous' table import.
@@ -337,6 +338,7 @@ avtable_import_status <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "av"
     )
     todo <- !job_status$status %in% c("Done", "Failed")
@@ -391,7 +393,7 @@ avtable_import_status <-
     job_status
 }
 
-#' @rdname av-deprecated
+#' @rdname av-defunct
 #'
 #' @description `avdata()` returns key-value tables representing the
 #'     information visualized under the DATA tab, 'REFERENCE DATA' and
@@ -427,6 +429,7 @@ avdata <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "av"
     )
     name <- URLencode(name)
@@ -487,7 +490,7 @@ avdata <-
     bind_rows(otherData_tbl, referenceData_tbl)
 }
 
-#' @rdname av-deprecated
+#' @rdname av-defunct
 #'
 #' @param .data A tibble or data.frame for import as an AnVIL table.
 #'
@@ -520,6 +523,7 @@ avdata_import <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "av"
     )
     .data <- filter(.data, .data$type == "other", table %in% "workspace")
@@ -571,7 +575,7 @@ avdata_import <-
     })
 })
 
-#' @rdname av-deprecated
+#' @rdname av-defunct
 #'
 #' @description `avbucket()` returns the workspace bucket, i.e., the
 #'     google bucket associated with a workspace. Bucket content can
@@ -608,6 +612,7 @@ avbucket <-
         newfun = "avstorage",
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "av"
     )
 
@@ -649,7 +654,7 @@ avbucket <-
     paste0(bucket, ifelse(length(args), "/", ""), args)
 }
 
-#' @rdname av-deprecated
+#' @rdname av-defunct
 #'
 #' @description `avfiles_ls()` returns the paths of files in the
 #'     workspace bucket.  `avfiles_backup()` copies files from the
@@ -698,6 +703,7 @@ avfiles_ls <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "av"
     )
 
@@ -711,7 +717,7 @@ avfiles_ls <-
     }
 }
 
-#' @rdname av-deprecated
+#' @rdname av-defunct
 #'
 #' @details `avfiles_backup()` can be used to back-up individual files
 #'     or entire directories, recursively.  When `recursive = FALSE`,
@@ -769,6 +775,7 @@ avfiles_backup <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "av"
     )
 
@@ -777,7 +784,7 @@ avfiles_backup <-
     gsutil_cp(source, destination, recursive = recursive, parallel = parallel)
 }
 
-#' @rdname av-deprecated
+#' @rdname av-defunct
 #'
 #' @details `avfiles_restore()` behaves in a manner analogous to
 #'     `avfiles_backup()`, copying files from the workspace bucket to
@@ -807,6 +814,7 @@ avfiles_restore <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "av"
     )
 
@@ -815,7 +823,7 @@ avfiles_restore <-
     gsutil_cp(source, destination, recursive = recursive, parallel = parallel)
 }
 
-#' @rdname av-deprecated
+#' @rdname av-defunct
 #'
 #' @return `avfiles_rm()` on success, returns a list of the return
 #'     codes of `gsutil_rm()`, invisibly.
@@ -841,6 +849,7 @@ avfiles_rm <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "av"
     )
 
@@ -856,7 +865,7 @@ avfiles_rm <-
 ## runtimes / persistent disks
 ##
 
-#' @rdname av-deprecated
+#' @rdname av-defunct
 #'
 #' @description `avruntimes()` returns a tibble containing information
 #'     about runtimes (notebooks or RStudio instances, for example)
@@ -915,6 +924,7 @@ avruntimes <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "av"
     )
 
@@ -927,7 +937,7 @@ avruntimes <-
         rename_with(~ sub(".*\\.", "", .x))
 }
 
-#' @rdname av-deprecated
+#' @rdname av-defunct
 #'
 #' @description `avruntime()` returns a tibble with the runtimes
 #'     associated with a particular google project and account number;
@@ -957,6 +967,7 @@ avruntime <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "av"
     )
 
@@ -992,7 +1003,7 @@ avruntime <-
     pet
 }
 
-#' @rdname av-deprecated
+#' @rdname av-defunct
 #'
 #' @description 'avdisks()` returns a tibble containing information
 #'     about persistent disks associatd with the current user.
@@ -1039,6 +1050,7 @@ avdisks <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "av"
     )
 

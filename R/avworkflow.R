@@ -1,6 +1,6 @@
-#' @name avworkflows-deprecated
+#' @name avworkflows-defunct
 #'
-#' @title Workflow submissions and file outputs
+#' @title DEFUNCT - Workflow submissions and file outputs
 #'
 #' @param namespace character(1) AnVIL workspace namespace as returned
 #'     by, e.g., `avworkspace_namespace()`
@@ -10,7 +10,7 @@
 #'
 NULL
 
-#' @rdname avworkflows-deprecated
+#' @rdname avworkflows-defunct
 #'
 #' @description `r lifecycle::badge("deprecated")`\cr
 #' `avworkflows()` returns a tibble summarizing available
@@ -50,6 +50,7 @@ avworkflows <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "avworkflows"
     )
     workflows <- Rawls()$list_method_configurations(
@@ -241,7 +242,7 @@ avworkflows <-
     )
 }
 
-#' @rdname avworkflows-deprecated
+#' @rdname avworkflows-defunct
 #'
 #' @description `avworkflow_files()` returns a tibble containing
 #'     information and file paths to workflow outputs.
@@ -325,6 +326,7 @@ avworkflow_files <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "avworkflow"
     )
     if (is_tibble(submissionId)) {
@@ -372,7 +374,7 @@ avworkflow_files <-
         )
 }
 
-#' @rdname avworkflows-deprecated
+#' @rdname avworkflows-defunct
 #'
 #' @description `avworkflow_localize()` creates or synchronizes a
 #'     local copy of files with files stored in the workspace bucket
@@ -445,6 +447,7 @@ avworkflow_localize <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "avworkflows"
     )
     if (is.null(destination))
@@ -503,7 +506,7 @@ avworkflow_localize <-
     invisible(tbl)
 }
 
-#' @rdname avworkflows-deprecated
+#' @rdname avworkflows-defunct
 #'
 #' @description `avworkflow_run()` submits and runs the workflow of the
 #'   configuration.
@@ -570,6 +573,7 @@ avworkflow_run <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "avworkflows"
     )
     if (dry) {
@@ -608,7 +612,7 @@ avworkflow_run <-
     invisible(config)
 }
 
-#' @rdname avworkflows-deprecated
+#' @rdname avworkflows-defunct
 #'
 #' @description `avworkflow_stop()` stops the most recently submitted workflow
 #'     jub from running.
@@ -644,6 +648,7 @@ avworkflow_stop <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "avworkflows"
     )
     if (dry) {
@@ -707,7 +712,7 @@ avworkflow_stop <-
     invisible(TRUE)
 }
 
-#' @rdname avworkflows-deprecated
+#' @rdname avworkflows-defunct
 #'
 #' @description `avworkflow_info()` returns a tibble containing workflow
 #'     information, including workflowName, status, start and end time,
@@ -737,6 +742,7 @@ avworkflow_info <-
     lifeCycle(
         newpackage = "AnVILGCP",
         package = "AnVIL",
+        cycle = "defunct",
         title = "avworkflows"
     )
    if (is.null(submissionId)) {
