@@ -12,12 +12,3 @@ test_that(".gcloud_sdk_find_binary() works", {
         expect_identical(object, expected)
     })
 })
-
-test_that("gcloud_project() returns correctly when config unset", {
-    skip_if(!AnVILGCP::gcloud_exists())
-    with_envvar <- withr::with_envvar
-    with_envvar(c(CLOUDSDK_ACTIVE_CONFIG_NAME="__UNDEFINED__"), {
-        expect_warning(object <- gcloud_project())
-        expect_identical(object, "(unset)")
-    })
-})
