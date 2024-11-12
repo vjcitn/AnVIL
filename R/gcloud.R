@@ -33,10 +33,6 @@ gcloud_runs <- function() {
 #' @return `gcloud_exists()` returns `TRUE` when the `gcloud`
 #'     application can be found, FALSE otherwise.
 #'
-#' @examples
-#' library(AnVILGCP)
-#' gcloud_exists()
-#'
 #' @export
 gcloud_exists <-
     function()
@@ -80,10 +76,6 @@ gcloud_exists <-
 #' @return `gcloud_account()` returns a `character(1)` vector
 #'     containing the active gcloud account, typically a gmail email
 #'     address.
-#'
-#' @examples
-#' if (gcloud_exists())
-#'     gcloud_account()
 #'
 #' @export
 gcloud_account <- function(account = NULL) {
@@ -139,10 +131,6 @@ gcloud_project <- function(project = NULL) {
 #' @return `gcloud_help()` returns an unquoted `character()` vector
 #'     representing the text of the help manual page returned by
 #'     `gcloud help ...`.
-#'
-#' @examples
-#' if (gcloud_exists())
-#'     gcloud_help()
 #'
 #' @export
 gcloud_help <- function(...) {

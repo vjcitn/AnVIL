@@ -409,15 +409,6 @@ avtable_import_status <-
 #'     associated with the data element and the value (e.g., google
 #'     bucket) of the element.
 #'
-#' @examples
-#' library(AnVILBase)
-#' library(AnVILGCP)
-#' if (has_avworkspace(strict = TRUE, platform = gcp())) {
-#'     ## from within AnVIL
-#'     data <- avdata()
-#'     data
-#' }
-#'
 #' @export
 avdata <-
     function(namespace = avworkspace_namespace(), name = avworkspace_name())
@@ -496,11 +487,6 @@ avdata <-
 #'
 #' @return `avdata_import()` returns, invisibly, the subset of the
 #'     input table used to update the AnVIL tables.
-#'
-#' @examples
-#' \dontrun{
-#' avdata_import(data)
-#' }
 #'
 #' @export
 avdata_import <-
@@ -584,18 +570,6 @@ avdata_import <-
 #' @return `avbucket()` returns a `character(1)` bucket identifier,
 #'     prefixed with `gs://` if `as_path = TRUE`.
 #'
-#' @examples
-#' if (has_avworkspace(strict = TRUE, platform = gcp()))
-#'     ## From within AnVIL...
-#'     bucket <- avstorage()                        # discover bucket
-#'
-#' \dontrun{
-#' path <- file.path(bucket, "mtcars.tab")
-#' gsutil_ls(dirname(path))                    # no 'mtcars.tab'...
-#' write.table(mtcars, gsutil_pipe(path, "w")) # write to bucket
-#' gsutil_stat(path)                           # yep, there!
-#' read.table(gsutil_pipe(path, "r"))          # read from bucket
-#' }
 #' @export
 avbucket <-
     function(namespace = avworkspace_namespace(),
@@ -681,10 +655,6 @@ avbucket <-
 #' @return `avfiles_ls()` returns a character vector of files in the
 #'     workspace bucket.
 #'
-#' @examples
-#' if (has_avworkspace(strict = TRUE, platform = gcp()))
-#'     avfiles_ls()
-#'
 #' @export
 avfiles_ls <-
     function(
@@ -741,16 +711,6 @@ avfiles_ls <-
 #'
 #' @return `avfiles_backup()` returns, invisibly, the status code of the
 #'     `gsutil_cp()` command used to back up the files.
-#'
-#' @examples
-#' \dontrun{
-#' ## backup all files in the current directory
-#' ## default buckets are gs://<bucket-id>/<file-names>
-#' avfiles_backup(dir())
-#' ## backup working directory, recursively
-#' ## default buckets are gs://<bucket-id>/<basename(getwd())>/...
-#' avfiles_backup(getwd(), recursive = TRUE)
-#' }
 #'
 #' @export
 avfiles_backup <-
@@ -891,13 +851,7 @@ avfiles_rm <-
 #' - persistentDiskId integer() identifier of persistent disk (see
 #'   `avdisks()`), or `NA`.
 #'
-#' @examples
-#' if (gcloud_exists())
-#'     ## from within AnVIL
-#'     avruntimes()
-#'
 #' @importFrom dplyr rename_with
-#'
 #' @importFrom tidyselect everything
 #'
 #' @export
@@ -1022,11 +976,6 @@ avruntime <-
 #' - dateAccessed character() date of (first?) access.
 #' - zone character() e.g.. "us-central1-a".
 #' - name character().
-#'
-#' @examples
-#' if (gcloud_exists())
-#'     ## from within AnVIL
-#'     avdisks()
 #'
 #' @export
 avdisks <-

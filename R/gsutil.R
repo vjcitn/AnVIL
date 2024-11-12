@@ -21,8 +21,6 @@
 #'     directories.  On linux / macOS, the search continues with
 #'     `~/google-cloud-sdk`.
 #'
-#' @examples
-#'     src <- "gs://genomics-public-data/1000-genomes/other/sample_info/sample_info.csv"
 NULL
 
 ## evaluate the gsutil command and arguments in `args`
@@ -57,11 +55,6 @@ NULL
 #'
 #' @return `gsutil_requesterpays()`: named `logical()` vector TRUE
 #'     when requester-pays is enabled.
-#'
-#' @examples
-#' library(AnVILGCP)
-#' if (gcloud_exists())
-#'     gsutil_requesterpays(src) # FALSE -- no cost download
 #'
 #' @export
 gsutil_requesterpays <-
@@ -199,13 +192,6 @@ gsutil_exists <-
 #' @return `gsutil_stat()`: `tibble()` summarizing status of each
 #'     bucket member.
 #'
-#' @examples
-#' if (gcloud_exists()) {
-#'     gsutil_exists(src)
-#'     gsutil_stat(src)
-#'     gsutil_ls(dirname(src))
-#' }
-#'
 #' @importFrom tidyr pivot_wider
 #' @export
 gsutil_stat <-
@@ -264,15 +250,6 @@ gsutil_stat <-
 #'     multi-processing (default is `TRUE`).
 #'
 #' @return `gsutil_cp()`: exit status of `gsutil_cp()`, invisibly.
-#'
-#' @examples
-#' if (gcloud_exists()) {
-#'    gsutil_cp(src, tempdir())
-#'    ## gsutil_*() commands work with spaces in the source or destination
-#'    destination <- file.path(tempdir(), "foo bar")
-#'    gsutil_cp(src, destination)
-#'    file.exists(destination)
-#' }
 #'
 #' @export
 gsutil_cp <-
@@ -476,10 +453,6 @@ gsutil_cat <-
 #'
 #' @importFrom BiocBaseUtils isZeroOneCharacter
 #'
-#' @examples
-#' if (gcloud_exists())
-#'     gsutil_help("ls")
-#'
 #' @export
 gsutil_help <-
     function(cmd = character(0))
@@ -511,14 +484,6 @@ gsutil_help <-
 #'     \emph{not} specified, and the pipe must be used in the
 #'     appropriate context (e.g., a pipe created with `open = "r"` for
 #'     input as `read.csv()`)
-#'
-#' @examples
-#' if (gcloud_exists()) {
-#'     df <- read.csv(gsutil_pipe(src), 5L)
-#'     class(df)
-#'     dim(df)
-#'     head(df)
-#' }
 #'
 #' @export
 gsutil_pipe <-

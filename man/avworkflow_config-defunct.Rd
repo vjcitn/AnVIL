@@ -215,51 +215,6 @@ A second problem is that an unquoted unboxed character string
 as a warning() about invalid inputs or outputs, and the solution is
 to provide a quoted string \code{unbox('"foo"')}.
 }
-\examples{
-library(AnVILBase)
-library(AnVILGCP)
-if (has_avworkspace(strict = TRUE, platform = gcp())) {
-## discover available workflows in the workspace
-avworkflows()
-
-## what workflows are available?
-available_workflows <- avworkflows()
-
-## retrieve the current configuration
-config <- avworkflow_configuration_get()
-config
-
-## what are the inputs and outputs?
-inputs <- avworkflow_configuration_inputs(config)
-inputs
-
-outputs <- avworkflow_configuration_outputs(config)
-outputs
-
-## update inputs or outputs, e.g., this input can be anything...
-inputs <-
-    inputs |>
-    mutate(attribute = ifelse(
-        name == "salmon.transcriptome_index_name",
-        '"new_index_name"',
-        attribute
-    ))
-new_config <- avworkflow_configuration_update(config, inputs)
-new_config
-
-## set the new configuration in AnVIL; use dry = FALSE to actually
-## update the configuration
-avworkflow_configuration_set(config)
-}
-
-## avworkflow_configuration_template() is a utility function that may
-## help understanding what the inputs and outputs should be
-avworkflow_configuration_template() |>
-    str()
-
-avworkflow_configuration_template()
-
-}
 \seealso{
 The help page \code{?avworkflows} for discovering, running,
 stopping, and retrieving outputs from workflows.

@@ -32,13 +32,6 @@ NULL
 #'
 #' @importFrom BiocBaseUtils isScalarCharacter
 #'
-#' @examples
-#' library(AnVILBase)
-#' library(AnVILGCP)
-#' if (has_avworkspace(strict = TRUE, platform = gcp()))
-#'     ## from within AnVIL
-#'     avworkflows() |> select(namespace, name)
-#'
 #' @export
 avworkflows <-
     function(namespace = avworkspace_namespace(), name = avworkspace_name())
@@ -292,16 +285,6 @@ avworkflows <-
 #' @importFrom tibble is_tibble
 #' @importFrom rlang .env
 #'
-#' @examples
-#' if (has_avworkspace(strict = TRUE, platform = gcp())) {
-#'     ## e.g., from within AnVIL
-#'     avworkflow_jobs() |>
-#'     ## select most recent workflow
-#'     head(1) |>
-#'     ## find paths to output and log files on the bucket
-#'     avworkflow_files()
-#' }
-#'
 #' @export
 avworkflow_files <-
     function(submissionId = NULL,
@@ -414,11 +397,6 @@ avworkflow_files <-
 #'     name and bucket path of files to be synchronized.
 #'
 #' @importFrom BiocBaseUtils isScalarLogical
-#'
-#' @examples
-#' if (has_avworkspace(strict = TRUE, platform = gcp())) {
-#'     avworkflow_localize(dry = TRUE)
-#' }
 #'
 #' @export
 avworkflow_localize <-
@@ -541,14 +519,6 @@ avworkflow_localize <-
 #'   has an added `LastSubmissionId` value for the submission ID of the last
 #'   run workflow.
 #'
-#' @examples
-#' \dontrun{
-#' entityName <- avtable("participant_set") |>
-#'     pull(participant_set_id) |>
-#'     head(1)
-#' avworkflow_run(new_config, entityName)
-#' }
-#'
 #' @export
 avworkflow_run <-
     function(config,
@@ -620,11 +590,6 @@ avworkflow_run <-
 #' @return `avworkflow_stop()` returns (invisibly) `TRUE` on
 #'     successfully requesting that the workflow stop, `FALSE` if the
 #'     workflow is already aborting, aborted, or done.
-#'
-#' @examples
-#' \dontrun{
-#' avworkflow_stop()
-#' }
 #'
 #' @export
 avworkflow_stop <-
@@ -723,10 +688,6 @@ avworkflow_stop <-
 #'     inputs and outputs.
 #'
 #' @importFrom dplyr distinct select
-#'
-#' @examples
-#' if (has_avworkspace(strict = TRUE, platform = gcp()))
-#'     avworkflow_info()
 #'
 #' @export
 avworkflow_info <-

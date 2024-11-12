@@ -183,34 +183,3 @@ gs://mybucket/data:
 If \code{destination} is a local path and does not exist, it will be
 created.
 }
-\examples{
-    src <- "gs://genomics-public-data/1000-genomes/other/sample_info/sample_info.csv"
-library(AnVILGCP)
-if (gcloud_exists())
-    gsutil_requesterpays(src) # FALSE -- no cost download
-
-if (gcloud_exists()) {
-    gsutil_exists(src)
-    gsutil_stat(src)
-    gsutil_ls(dirname(src))
-}
-
-if (gcloud_exists()) {
-   gsutil_cp(src, tempdir())
-   ## gsutil_*() commands work with spaces in the source or destination
-   destination <- file.path(tempdir(), "foo bar")
-   gsutil_cp(src, destination)
-   file.exists(destination)
-}
-
-if (gcloud_exists())
-    gsutil_help("ls")
-
-if (gcloud_exists()) {
-    df <- read.csv(gsutil_pipe(src), 5L)
-    class(df)
-    dim(df)
-    head(df)
-}
-
-}

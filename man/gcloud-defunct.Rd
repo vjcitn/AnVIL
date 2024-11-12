@@ -94,14 +94,3 @@ commands such as \code{rm} and \code{cp}.
 \verb{gcloud storage buckets} command. This command can be used to create a new
 bucket via \verb{gcloud storage buckets create ...}.
 }
-\examples{
-library(AnVILGCP)
-gcloud_exists()
-
-if (gcloud_exists())
-    gcloud_account()
-
-if (gcloud_exists())
-    gcloud_help()
-
-}

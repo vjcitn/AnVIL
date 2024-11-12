@@ -367,48 +367,6 @@ avworkflow_configuration_update <-
 #'     invalid or unused elements of the `config` input. Invalid or
 #'     unused elements of `config` are also reported as a warning.
 #'
-#' @examples
-#' library(AnVILBase)
-#' library(AnVILGCP)
-#' if (has_avworkspace(strict = TRUE, platform = gcp())) {
-#' ## discover available workflows in the workspace
-#' avworkflows()
-#'
-#' ## what workflows are available?
-#' available_workflows <- avworkflows()
-#'
-#' ## retrieve the current configuration
-#' config <- avworkflow_configuration_get()
-#' config
-#'
-#' ## what are the inputs and outputs?
-#' inputs <- avworkflow_configuration_inputs(config)
-#' inputs
-#'
-#' outputs <- avworkflow_configuration_outputs(config)
-#' outputs
-#'
-#' ## update inputs or outputs, e.g., this input can be anything...
-#' inputs <-
-#'     inputs |>
-#'     mutate(attribute = ifelse(
-#'         name == "salmon.transcriptome_index_name",
-#'         '"new_index_name"',
-#'         attribute
-#'     ))
-#' new_config <- avworkflow_configuration_update(config, inputs)
-#' new_config
-#'
-#' ## set the new configuration in AnVIL; use dry = FALSE to actually
-#' ## update the configuration
-#' avworkflow_configuration_set(config)
-#' }
-#'
-#' ## avworkflow_configuration_template() is a utility function that may
-#' ## help understanding what the inputs and outputs should be
-#' avworkflow_configuration_template() |>
-#'     str()
-#'
 #' @export
 avworkflow_configuration_set <-
     function(config,
@@ -504,9 +462,6 @@ avworkflow_configuration_set <-
 #' - deleted logical(1) of uncertain purpose.
 #'
 #' @importFrom jsonlite unbox
-#'
-#' @examples
-#' avworkflow_configuration_template()
 #'
 #' @export
 avworkflow_configuration_template <-

@@ -96,22 +96,3 @@ the Terra / AnVIL graphical user interface, the user profiles
 'External Entities' includes the organization to which the DRS uri
 is being resolved.
 }
-\examples{
-drs <- c(
-    vcf = "drs://dg.ANV0/6f633518-f2de-4460-aaa4-a27ee6138ab5",
-    tbi = "drs://dg.ANV0/4fb9e77f-c92a-4deb-ac90-db007dc633aa"
-)
-
-library(AnVILGCP)
-if (gcloud_exists() && startsWith(gcloud_account(), "pet-")) {
-    ## from within AnVIL
-    tbl <- drs_stat(uri)
-    urls <- drs_access_url(uri)
-    ## library(VariantAnnotation)
-    ## vcffile <- VcfFile(urls[["vcf"]], urls[["tbi"]])
-    ##
-    ## header <- scanVcfHeader(vcffile)
-    ## meta(header)[["contig"]]
-}
-
-}

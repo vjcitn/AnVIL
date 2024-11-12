@@ -214,38 +214,3 @@ workflow job are candidates for localization.
 object. The new \code{config} object has an added \code{LastSubmissionId} value that
 identifies the submitted job.
 }
-\examples{
-library(AnVILBase)
-library(AnVILGCP)
-if (has_avworkspace(strict = TRUE, platform = gcp()))
-    ## from within AnVIL
-    avworkflows() |> select(namespace, name)
-
-if (has_avworkspace(strict = TRUE, platform = gcp())) {
-    ## e.g., from within AnVIL
-    avworkflow_jobs() |>
-    ## select most recent workflow
-    head(1) |>
-    ## find paths to output and log files on the bucket
-    avworkflow_files()
-}
-
-if (has_avworkspace(strict = TRUE, platform = gcp())) {
-    avworkflow_localize(dry = TRUE)
-}
-
-\dontrun{
-entityName <- avtable("participant_set") |>
-    pull(participant_set_id) |>
-    head(1)
-avworkflow_run(new_config, entityName)
-}
-
-\dontrun{
-avworkflow_stop()
-}
-
-if (has_avworkspace(strict = TRUE, platform = gcp()))
-    avworkflow_info()
-
-}
