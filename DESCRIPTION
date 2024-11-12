@@ -39,7 +39,7 @@ Imports:
     rapiclient (>= 0.1.3), yaml,
     tibble, tidyselect, tidyr, rlang,
     shiny, DT, miniUI, htmltools,
-    BiocManager, BiocBaseUtils
+    BiocBaseUtils
 Suggests: parallel, knitr, rmarkdown, testthat, withr, readr, BiocStyle,
     devtools, AnVILAz, AnVILGCP, lifecycle
 Collate:
