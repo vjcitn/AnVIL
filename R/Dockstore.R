@@ -38,7 +38,7 @@ Dockstore <-
     .Dockstore(
         Service(
             "dockstore",
-            host="dockstore.org",
+            host = "dockstore.org",
             config = httr::config(ssl_verifypeer = 0L, ssl_verifyhost = 0L),
             api_reference_version = .DOCKSTORE_API_REFERENCE_VERSION,
             authenticate = FALSE,
