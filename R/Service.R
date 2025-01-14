@@ -12,12 +12,13 @@ setOldClass("request")
     slots = c(
         service = "character",
         config = "request",
-        api = "rapi_api"
+        api = "rapi_api",
+        host = "character"
     )
 )
 
 .service <- function(x) x@service
-
+.host <- function(x) x@host
 .config <- function(x) x@config
 
 #' @importFrom httr write_disk GET
@@ -216,7 +217,7 @@ Service <-
     api$schemes <- schemes
     api$host <- host
     api$paths <- .api_paths_fix(api$paths)
-    .Service(service = service, config = config, api = api)
+    .Service(service = service, config = config, api = api, host = host)
 }
 
 #' @importFrom utils .DollarNames
@@ -235,6 +236,7 @@ setMethod(
 {
     cat(
         "service: ", .service(object), "\n",
+        "host: ", .host(object), "\n",
         "tags(); use ", tolower(class(object)), "$<tab completion>:\n",
         sep = ""
     )
