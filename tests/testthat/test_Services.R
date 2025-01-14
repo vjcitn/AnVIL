@@ -6,6 +6,31 @@ test_that("Services are current", {
     expect_silent(Dockstore())
 })
 
+test_that("host is captured in Service", {
+    api_reference_url <- "https://dockstore.org/openapi.yaml"
+    api_reference_version <- AnVIL:::.DOCKSTORE_API_REFERENCE_VERSION
+    .host <- function(x) x@host
+    myHost <- "dockstore.org"
+
+    .MyService <- setClass("MyService", contains = "Service")
+    MyService <- function() {
+        .MyService(
+            Service(
+                "dockstore",
+                host = myHost,
+                config = httr::config(ssl_verifypeer = 0L, ssl_verifyhost = 0L),
+                api_reference_version = api_reference_version,
+                authenticate = FALSE,
+                api_reference_url = "https://dockstore.org/api/openapi.yaml",
+            )
+        )
+    }
+
+    expect_identical(
+        .host(MyService()), myHost
+    )
+})
+
 test_that("Dockstore API reference version is constant", {
     api_reference_url <- "https://dockstore.org/openapi.yaml"
     # .service_read_version(api_reference_url)
