@@ -1,3 +1,26 @@
+# AnVIL 1.20.0
+
+USER VISIBLE CHANGES
+
+- (v 1.19.5) Added `host` slot to `Service` class slot to show any
+  subdomains in the API host URL.
+
+- (v 1.19.1) Deprecated `av*`, `gcloud`, etc. functions are now defunct; see
+  `*-defunct` documentation pages.
+  
+BUG FIXES AND MINOR IMPROVEMENTS
+
+- (v 1.19.7) Updated NEWS.md and GitHub Actions to automate version
+  updates in Dockstore.
+  
+- (v 1.19.6) Remove test meant for `rapiclient` client package.
+
+- (v 1.19.4) Update Dockstore API version
+
+- (v 1.19.3) Remove examples and tests for defunct functions.
+  
+- (v 1.19.2) Use `gcloud_exists` from the `AnVILGCP` package.
+
 # AnVIL 1.18.0
 
 USER VISIBLE CHANGES
