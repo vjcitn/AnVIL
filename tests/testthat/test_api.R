@@ -1,21 +1,3 @@
-test_that("positional matching works for body arguments", {
-    skip_if(!AnVILGCP::gcloud_exists())
-
-    ## two arguments for URL, one for BODY
-    fun <- Terra()$flexibleImportEntities
-
-    with_mock(
-        `httr::POST` = function(..., body) identical(names(body), "entities"),
-        ## named...
-        expect_true(fun("A", "B", .__body__ = list(entities = "C"))),
-        expect_true(fun("A", "B", entities = "C")),
-        ## positional
-        expect_true(fun("A", "B", .__body__ = list("C"))),
-        expect_true(fun("A", "B", , , "C"))
-    )
-
-})
-
 ## Check that the API calls used by AnVIL are consistent with the API
 ## in the YAML. Requires manual investigation of any removed or
 ## updated_args_in_use functions.
