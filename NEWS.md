@@ -10,6 +10,8 @@ USER VISIBLE CHANGES
   
 BUG FIXES AND MINOR IMPROVEMENTS
 
+- (v 1.19.9) Trigger updates based on changes to Dockstore API
+
 - (v 1.19.7) Updated NEWS.md and GitHub Actions to automate version
   updates in Dockstore.
   
