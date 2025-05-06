@@ -15,7 +15,8 @@ Service(
   api_reference_url = api_url,
   api_reference_md5sum = character(),
   api_reference_version = character(),
-  api_reference_headers = NULL
+  api_reference_headers = NULL,
+  ...
 )
 }
 \arguments{
@@ -52,6 +53,8 @@ set by the service generation function,. e.g., \code{AnVIL::Rawls()}.}
 \item{api_reference_headers}{character() header(s) to be used
 (e.g., \code{c(Authorization = paste("Bearer", token))}) when
 retrieving the API reference for validation.}
+
+\item{...}{additional arguments passed to \code{rapiclient::get_api()}}
 }
 \value{
 An object of class \code{Service}.

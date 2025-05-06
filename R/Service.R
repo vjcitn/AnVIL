@@ -132,6 +132,8 @@ setOldClass("request")
 #'     (e.g., `c(Authorization = paste("Bearer", token))`) when
 #'     retrieving the API reference for validation.
 #'
+#' @param ... additional arguments passed to `rapiclient::get_api()`
+#'
 #' @details This function creates a RESTful interface to a service
 #'     provided by a host, e.g., "leonardo.dsde-prod.broadinstitute.org".
 #'     The function requires an OpenAPI `.json` or `.yaml` specifcation
@@ -166,8 +168,9 @@ Service <-
         api_reference_url = api_url,
         api_reference_md5sum = character(),
         api_reference_version = character(),
-        api_reference_headers = NULL)
-{
+        api_reference_headers = NULL,
+        ...
+) {
     stopifnot(
         isScalarCharacter(service),
         isScalarCharacter(host),
@@ -204,7 +207,7 @@ Service <-
         } else {
             path <- .api_path(service, package)
         }
-        api <- get_api(path, config)
+        api <- get_api(path, config, ...)
     }, warning = function(w) {
         test <- identical(
             conditionMessage(w),
