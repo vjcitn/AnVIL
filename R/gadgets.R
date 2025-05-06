@@ -40,6 +40,7 @@
 }
 
 #' @importFrom shiny observeEvent stopApp renderText
+#' @importFrom AnVILBase avworkspace avworkspace_name
 .gadget_server <-
     function(tibble, DONE_FUN)
 {
@@ -155,6 +156,7 @@ avworkspace_gadget <-
     .workspace_impl()
 }
 
+#' @importFrom AnVILBase avworkspaces
 .workspaces <- local({
     ## a little more responsive -- only retrieve workspaces once per session
     workspaces <- NULL
@@ -232,6 +234,8 @@ browse_workspace <-
 #'
 #' @return `table()` returns a `tibble` representing the selected
 #'     AnVIL table.
+#'
+#' @importFrom AnVILBase avtable avtables
 #'
 #' @export
 avtable_gadget <-
