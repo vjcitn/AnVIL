@@ -19,6 +19,8 @@
 #'
 #' @format NULL
 #'
+#' @importFrom BiocBaseUtils checkInstalled
+#'
 #' @examples
 #' library(AnVILGCP)
 #' if (gcloud_exists())
@@ -28,8 +30,7 @@
 Leonardo <-
     function()
 {
-    if (!requireNamespace("AnVILGCP", quietly = TRUE))
-        stop("Install 'AnVILGCP' to use 'Leonardo()'", call. = FALSE)
+    checkInstalled("AnVILGCP")
     access_token <- AnVILGCP::gcloud_access_token("leonardo")
     api_header <- c(
         Authorization = paste("Bearer", access_token),

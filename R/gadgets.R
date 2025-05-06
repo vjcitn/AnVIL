@@ -267,16 +267,18 @@ avtable_gadget <-
 avworkflow_gadget <-
     function()
 {
+    checkInstalled("AnVILGCP")
     DONE_FUN <- function(tibble, row_selected)
         paste0(tibble$namespace[row_selected], "/", tibble$name[row_selected])
 
     workspace <- .workspace_get()
 
-    workflow <- .gadget_run("AnVIL Workflows", avworkflows(), DONE_FUN)
+    workflow <-
+        .gadget_run("AnVIL Workflows", AnVILGCP::avworkflows(), DONE_FUN)
 
     if (length(workflow)) {
-        avworkflow(workflow) # set workflow to selected value
-        message("workflow set to '", avworkflow(), "'")
-        avworkflow_configuration_get()
+        AnVILGCP::avworkflow(workflow) # set workflow to selected value
+        message("workflow set to '", AnVILGCP::avworkflow(), "'")
+        AnVILGCP::avworkflow_configuration_get()
     }
 }

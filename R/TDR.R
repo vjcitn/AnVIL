@@ -26,8 +26,7 @@
 TDR <-
     function()
 {
-    if (!requireNamespace("AnVILGCP", quietly = TRUE))
-        stop("Install 'AnVILGCP' to use 'TDR()'", call. = FALSE)
+    checkInstalled("AnVILGCP")
     access_token <- AnVILGCP::gcloud_access_token("tdr")
     api_header <- c(
         Authorization = paste("Bearer", access_token)

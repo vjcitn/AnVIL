@@ -29,8 +29,7 @@
 Terra <-
     function()
 {
-    if (!requireNamespace("AnVILGCP", quietly = TRUE))
-        stop("Install 'AnVILGCP' to use 'Terra()'", call. = FALSE)
+    checkInstalled("AnVILGCP")
     access_token <- AnVILGCP::gcloud_access_token("terra")
     api_header <- c(Authorization = paste("Bearer", access_token))
     .Terra(
