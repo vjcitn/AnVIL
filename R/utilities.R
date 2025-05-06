@@ -48,7 +48,8 @@ isScalarCharacter_or_NULL <- function(x, na.ok = FALSE, zchar = FALSE)
         identical(lengths(regmatches(x, gregexpr("/", x, fixed = TRUE))), 1L)
 }
 
-#' @importFrom dplyr full_join
+#' @importFrom dplyr full_join select
+#' @importFrom tibble as_tibble
 .tbl_with_template <-
     function(tbl, tmpl)
 {

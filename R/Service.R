@@ -21,7 +21,7 @@ setOldClass("request")
 .host <- function(x) x@host
 .config <- function(x) x@config
 
-#' @importFrom httr write_disk GET
+#' @importFrom httr write_disk GET add_headers
 #' @importFrom AnVILBase avstop_for_status
 .service_get_api_file <- function(reference_url, reference_headers) {
     fl <- tempfile()
@@ -149,7 +149,7 @@ setOldClass("request")
 #'
 #' @return An object of class \code{Service}.
 #'
-#' @importFrom BiocBaseUtils isScalarLogical isCharacter
+#' @importFrom BiocBaseUtils isScalarCharacter isScalarLogical isCharacter
 #'
 #' @examples
 #' .MyService <- setClass("MyService", contains = "Service")
