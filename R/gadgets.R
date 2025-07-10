@@ -267,6 +267,8 @@ avtable_gadget <-
 #'     workflow. This can be edited and updated as described in the
 #'     "Running an AnVIL workflow within R" vigenette.
 #'
+#' @importFrom BiocBaseUtils checkInstalled
+#'
 #' @export
 avworkflow_gadget <-
     function()
