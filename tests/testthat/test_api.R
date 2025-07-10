@@ -7,7 +7,7 @@
 ## previously recorded versions.
 
 test_that("Interfaces are current", {
-    skip_if(!AnVILGCP::gcloud_exists())
+    skip_if(!GCPtools::gcloud_exists())
 
     service_status <- .api_test_check(Terra(), "Terra")
     expect_identical(service_status$removed_in_use, character())

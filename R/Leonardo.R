@@ -19,10 +19,10 @@
 #'
 #' @format NULL
 #'
-#' @importFrom BiocBaseUtils checkInstalled
+#' @importFrom GCPtools gcloud_access_token
 #'
 #' @examples
-#' library(AnVILGCP)
+#' library(GCPtools)
 #' if (gcloud_exists())
 #'     Leonardo()
 #'
@@ -30,8 +30,7 @@
 Leonardo <-
     function()
 {
-    checkInstalled("AnVILGCP")
-    access_token <- AnVILGCP::gcloud_access_token("leonardo")
+    access_token <- gcloud_access_token("leonardo")
     api_header <- c(
         Authorization = paste("Bearer", access_token),
         Referer = "https://leonardo.dsde-prod.broadinstitute.org"

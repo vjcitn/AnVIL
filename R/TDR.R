@@ -17,8 +17,10 @@
 #'
 #' @format NULL
 #'
+#' @importFrom GCPtools gcloud_access_token
+#'
 #' @examples
-#' library(AnVILGCP)
+#' library(GCPtools)
 #' if (gcloud_exists())
 #'     TDR()
 #'
@@ -26,8 +28,7 @@
 TDR <-
     function()
 {
-    checkInstalled("AnVILGCP")
-    access_token <- AnVILGCP::gcloud_access_token("tdr")
+    access_token <- gcloud_access_token("tdr")
     api_header <- c(
         Authorization = paste("Bearer", access_token)
     )

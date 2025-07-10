@@ -18,8 +18,10 @@
 #'
 #' @format NULL
 #'
+#' @importFrom GCPtools gcloud_access_token
+#'
 #' @examples
-#' library(AnVILGCP)
+#' library(GCPtools)
 #' if (gcloud_exists()) {
 #'     tags(Rawls())
 #'     tags(Rawls(), "billing")
@@ -29,8 +31,7 @@
 Rawls <-
     function()
 {
-    checkInstalled("AnVILGCP")
-    access_token <- AnVILGCP::gcloud_access_token("rawls")
+    access_token <- gcloud_access_token("rawls")
     api_header <- c(Authorization = paste("Bearer", access_token))
     .Rawls(
         Service(

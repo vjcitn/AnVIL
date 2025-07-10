@@ -18,8 +18,10 @@
 #'
 #' @format NULL
 #'
+#' @importFrom GCPtools gcloud_access_token
+#'
 #' @examples
-#' library(AnVILGCP)
+#' library(GCPtools)
 #' if (gcloud_exists()) {
 #'     tags(Terra())
 #'     tags(Terra(), "Billing")
@@ -29,8 +31,7 @@
 Terra <-
     function()
 {
-    checkInstalled("AnVILGCP")
-    access_token <- AnVILGCP::gcloud_access_token("terra")
+    access_token <- gcloud_access_token("terra")
     api_header <- c(Authorization = paste("Bearer", access_token))
     .Terra(
         Service(

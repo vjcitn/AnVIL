@@ -1,5 +1,5 @@
 test_that("Services are current", {
-    skip_if(!AnVILGCP::gcloud_exists())
+    skip_if(!GCPtools::gcloud_exists())
     expect_silent(Terra())
     expect_silent(Leonardo())
     expect_silent(Rawls())
